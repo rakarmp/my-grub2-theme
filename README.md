@@ -14,7 +14,7 @@ Gunakan: `sudo ./install.sh [OPTIONS...]`
   -h, --help      Menampilkan bantuan
 ```
 
-_Jika tidak menggunakan opsi, dialog antarmuka pengguna dialog akan muncul_
+_Untuk Resolusi 1080p itu background nya anime look yah..., kalo untuk resolusi lain itu beda dari 1080p_
 
 #### Hanya Untuk Linux System.
 
