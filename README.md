@@ -16,6 +16,8 @@ Gunakan: `sudo ./install.sh [OPTIONS...]`
 
 _Jika tidak menggunakan opsi, dialog antarmuka pengguna dialog akan muncul_
 
+#### Hanya Untuk Linux System.
+
 ### Examples:
 
 - Pasang tema tela dengan resolusi 2k:
@@ -36,7 +38,7 @@ sudo ./install.sh -b -t tela
 sudo ./install.sh -r -t tela
 ```
 
-## Config Background
+### Config Background
 
 - Di dalam root folder ada backgrounds, ganti dengan background kamu sendiri, dengan nama yang sama seperti defaultnya
 
