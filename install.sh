@@ -62,15 +62,15 @@ cat << EOF
 Usage: $0 [OPTION]...
 
 OPTIONS:
-  -t, --theme     theme variant(s)          [tela|vimix|stylish|whitesur]       (default is tela)
-  -i, --icon      icon variant(s)           [color|white|whitesur]              (default is color)
-  -s, --screen    screen display variant(s) [1080p|2k|4k|ultrawide|ultrawide2k] (default is 1080p)
-  -r, --remove    Remove theme              [tela|vimix|stylish|whitesur]       (must add theme name option, default is tela)
+  -t, --theme     varian tema(s)          [tela|vimix|stylish|whitesur]       (default is tela)
+  -i, --icon      varian ikon(s)           [color|white|whitesur]              (default is color)
+  -s, --screen    varian tampilan layar(s) [1080p|2k|4k|ultrawide|ultrawide2k] (default is 1080p)
+  -r, --remove    hapus tema              [tela|vimix|stylish|whitesur]       (harus menambahkan opsi nama tema, default tela)
 
-  -b, --boot      install theme into '/boot/grub' or '/boot/grub2'
-  -g, --generate  do not install but generate theme into chosen directory       (must add your directory)
+  -b, --boot      pasang tema ke '/boot/grub' or '/boot/grub2'
+  -g, --generate  bukan menginstal tetapi menghasilkan tema ke direktori yang dipilih       (harus menambahkan direktori kamu)
 
-  -h, --help      Show this help
+  -h, --help      Menampilkan bantuan
 
 EOF
 }
@@ -85,13 +85,13 @@ generate() {
   fi
 
   # Make a themes directory if it doesn't exist
-  prompt -s "\n Checking for the existence of themes directory..."
+  prompt -s "\n Memeriksa keberadaan direktori tema..."
 
   [[ -d "${THEME_DIR}/${theme}" ]] && rm -rf "${THEME_DIR}/${theme}"
   mkdir -p "${THEME_DIR}/${theme}"
 
   # Copy theme
-  prompt -s "\n Installing ${theme} ${icon} ${screen} theme..."
+  prompt -s "\n Memasang ${theme} ${icon} ${screen} tema..."
 
   # Don't preserve ownership because the owner will be root, and that causes the script to crash if it is ran from terminal by sudo
   cp -a --no-preserve=ownership "${REO_DIR}/common/"{*.png,*.pf2} "${THEME_DIR}/${theme}"
@@ -133,7 +133,7 @@ install() {
     generate "${theme}" "${icon}" "${screen}"
 
     # Set theme
-    prompt -s "\n Setting ${theme} as default..."
+    prompt -s "\n Setting ${theme} ke default..."
 
     # Backup grub config
     cp -an /etc/default/grub /etc/default/grub.bak
@@ -207,9 +207,9 @@ install() {
     fi
 
     # Update grub config
-    prompt -s "\n Updating grub config..."
+    prompt -s "\n Mengupdate grub config..."
     updating_grub
-    prompt -w "\n * At the next restart of your computer you will see your new Grub theme: '$theme' "
+    prompt -w "\n * Pada restart komputer berikutnya, kamu akan melihat tema Grub baru kamu.: '$theme' "
 
   #Check if password is cached (if cache timestamp has not expired yet)
   elif sudo -n true 2> /dev/null && echo; then
@@ -230,8 +230,8 @@ install() {
         fi
       fi
     else
-      prompt -e "\n [ Error! ] -> Run me as root! "
-      read -r -p " [ Trusted ] Specify the root password : " -t ${MAX_DELAY} -s
+      prompt -e "\n [ Error! ] -> Jalankan saya sebagai root! "
+      read -r -p " [ Trusted ] Tentukan kata sandi root : " -t ${MAX_DELAY} -s
       if sudo -S echo <<< $REPLY 2> /dev/null && echo; then
         #Correct password, use with sudo's stdin
         if [[ "${install_boot}" == 'true' ]]; then
@@ -242,7 +242,7 @@ install() {
       else
         #block for 3 seconds before allowing another attempt
         sleep 3
-        prompt -e "\n [ Error! ] -> Incorrect password!\n"
+        prompt -e "\n [ Error! ] -> Password salah!\n"
         exit 1
       fi
     fi
@@ -278,7 +278,7 @@ run_dialog() {
     fi
 
     tui=$(dialog --backtitle ${Project_Name} \
-    --radiolist "Choose your Grub theme background picture : " 15 40 5 \
+    --radiolist "Pilih gambar latar belakang tema Grub Anda : " 15 40 5 \
       1 "Vimix Theme" off  \
       2 "Tela Theme" on \
       3 "Stylish Theme" off  \
@@ -292,7 +292,7 @@ run_dialog() {
      esac
 
     tui=$(dialog --backtitle ${Project_Name} \
-    --radiolist "Choose icon style : " 15 40 5 \
+    --radiolist "Pilih gaya ikon : " 15 40 5 \
       1 "white" off \
       2 "color" on \
       3 "whitesur" off --output-fd 1 )
@@ -304,7 +304,7 @@ run_dialog() {
      esac
 
     tui=$(dialog --backtitle ${Project_Name} \
-    --radiolist "Choose your Display Resolution : " 15 40 5 \
+    --radiolist "Pilih Resolusi Tampilan Anda : " 15 40 5 \
       1 "1080p (1920x1080)" on  \
       2 "1080p ultrawide (2560x1080)" off  \
       3 "2k (2560x1440)" off \
@@ -323,7 +323,7 @@ run_dialog() {
 
 operation_canceled() {
   clear
-  prompt -i "\n Operation canceled by user, Bye!"
+  prompt -i "\n Operasi dibatalkan oleh pengguna, Bye!"
   exit 1
 }
 
@@ -346,7 +346,7 @@ updating_grub() {
   fi
 
   # Success message
-  prompt -s "\n * All done!"
+  prompt -s "\n * Pemasangan selesai!"
 }
 
 function install_program () {
@@ -365,7 +365,7 @@ function install_program () {
 
 install_dialog() {
   if [ ! "$(which dialog 2> /dev/null)" ]; then
-    prompt -w "\n 'dialog' need to be installed for this shell"
+    prompt -w "\n 'dialog' perlu diinstal untuk shell ini"
     install_program "dialog"
   fi
 }
@@ -375,21 +375,21 @@ remove() {
 
   # Check for root access and proceed if it is present
   if [ "$UID" -eq "$ROOT_UID" ]; then
-    prompt -i "\n Checking for the existence of themes directory..."
+    prompt -i "\n Memeriksa keberadaan direktori tema..."
     if [[ -d "${THEME_DIR}/${theme}" ]]; then
-      prompt -s "\n Find installed theme: '${THEME_DIR}/${theme}'..."
+      prompt -s "\n Temukan tema yang diinstal: '${THEME_DIR}/${theme}'..."
       rm -rf "${THEME_DIR}/${theme}"
-      prompt -w "\n Removed: '${THEME_DIR}/${theme}'..."
+      prompt -w "\n Dihapus: '${THEME_DIR}/${theme}'..."
     elif [[ -d "/boot/grub/themes/${theme}" ]]; then
-      prompt -s "\n Find installed theme: '/boot/grub/themes/${theme}'..."
+      prompt -s "\n Temukan tema yang diinstal: '/boot/grub/themes/${theme}'..."
       rm -rf "/boot/grub/themes/${theme}"
-      prompt -w "\n Removed: '/boot/grub/themes/${theme}'..."
+      prompt -w "\n Dihapus: '/boot/grub/themes/${theme}'..."
     elif [[ -d "/boot/grub2/themes/${theme}" ]]; then
-      prompt -s "\n Find installed theme: '/boot/grub2/themes/${theme}'..."
+      prompt -s "\n Temukan tema yang diinstal: '/boot/grub2/themes/${theme}'..."
       rm -rf "/boot/grub2/themes/${theme}"
-      prompt -w "\n Removed: '/boot/grub2/themes/${theme}'..."
+      prompt -w "\n Dihapus: '/boot/grub2/themes/${theme}'..."
     else
-      prompt -e "\n Specified ${theme} theme does not exist!"
+      prompt -e "\n Tema ${theme} yang ditentukan tidak ada!"
       exit 0
     fi
 
@@ -399,8 +399,8 @@ remove() {
     elif [[ -f "/etc/default/grub.d/kali-themes.cfg" ]]; then
       grub_config_location="/etc/default/grub.d/kali-themes.cfg"
     else
-      prompt -e "\nCannot find grub config file in default locations!"
-      prompt -e "\nPlease inform the developers by opening an issue on github."
+      prompt -e "\nTidak dapat menemukan file konfigurasi grub di lokasi default!"
+      prompt -e "\nHarap beri tahu pengembang dengan membuka masalah di github."
       prompt -e "\nExiting..."
       exit 1
     fi
