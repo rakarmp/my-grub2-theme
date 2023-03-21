@@ -1,5 +1,6 @@
 # GRUB2 gfxmenu Linux theme
 # Designed for any resolution
+# created by human and ai
 
 # Global Property
 title-text: ""
@@ -46,7 +47,7 @@ terminal-border: "0"
   width = 36%
   align = "center"
   id = "__timeout__"
-  text = "Booting in %d seconds"
+  text = "Waktu boot %d detik"
   color = "#cccccc"
   font = "Unifont Regular 16"
 }
